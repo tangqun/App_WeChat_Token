@@ -40,7 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAuthInfoDAL.cs" />
+    <Compile Include="ICodeMsgDAL.cs" />
+    <Compile Include="IConfigDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model_9H\Model_9H.csproj">
+      <Project>{0b743b21-1606-401c-9e32-22520f41ca11}</Project>
+      <Name>Model_9H</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
