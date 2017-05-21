@@ -113,6 +113,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Log4Net.config" />
+    <None Include="Properties\PublishProfiles\token.smartyancheng.com.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
