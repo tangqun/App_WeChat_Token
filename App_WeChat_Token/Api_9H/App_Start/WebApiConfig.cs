@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace App_WeChat_Token
+namespace Api_9H
 {
     public static class WebApiConfig
     {

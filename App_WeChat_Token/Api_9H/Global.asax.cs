@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
 
-namespace App_WeChat_Token
+namespace Api_9H
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

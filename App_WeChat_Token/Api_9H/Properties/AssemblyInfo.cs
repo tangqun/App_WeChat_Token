@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过下列特性集
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("App_WeChat_Token")]
+[assembly: AssemblyTitle("Api_9H")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("App_WeChat_Token")]
+[assembly: AssemblyProduct("Api_9H")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于 typelib 的 ID
-[assembly: Guid("4b644995-68f3-431b-87fd-32b7112a6605")]
+[assembly: Guid("c1795d38-a6db-4e5f-bcdf-dc3078d52dbc")]
 
 // 程序集的版本信息由下列四个值组成:
 //
