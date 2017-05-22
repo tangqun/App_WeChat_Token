@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model_9H
 {
-    public class AuthInfoModel
+    public class AuthorizationInfoModel
     {
         public int Id { get; set; }
         public string Authorizer_Appid { get; set; }

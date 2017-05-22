@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAuthInfoDAL.cs" />
+    <Compile Include="IAuthorizationInfoDAL.cs" />
     <Compile Include="ICodeMsgDAL.cs" />
     <Compile Include="IConfigDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

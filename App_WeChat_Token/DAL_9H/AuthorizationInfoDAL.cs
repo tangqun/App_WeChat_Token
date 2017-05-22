@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace DAL_9H
 {
-    public class AuthInfoDAL : IAuthInfoDAL
+    public class AuthorizationInfoDAL : IAuthorizationInfoDAL
     {
-        public List<AuthInfoModel> GetRefreshList()
+        public List<AuthorizationInfoModel> GetRefreshList()
         {
             string sql =
                         @"SELECT
@@ -33,7 +33,7 @@ namespace DAL_9H
             return EntityListToModelList(dt);
         }
 
-        public AuthInfoModel GetModel(string authorizer_appid)
+        public AuthorizationInfoModel GetModel(string authorizer_appid)
         {
             string sql =
                         @"SELECT
@@ -77,9 +77,9 @@ namespace DAL_9H
             return MySqlHelper.ExecuteNonQuery(ConfigHelper.ConnStr, sql, parameters) > 0;
         }
 
-        private List<AuthInfoModel> EntityListToModelList(DataTable dt)
+        private List<AuthorizationInfoModel> EntityListToModelList(DataTable dt)
         {
-            List<AuthInfoModel> modelList = new List<AuthInfoModel>();
+            List<AuthorizationInfoModel> modelList = new List<AuthorizationInfoModel>();
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow dr in dt.Rows)
@@ -90,11 +90,11 @@ namespace DAL_9H
             return modelList;
         }
 
-        private AuthInfoModel EntityToModel(DataRow dr)
+        private AuthorizationInfoModel EntityToModel(DataRow dr)
         {
             if (dr != null)
             {
-                AuthInfoModel model = new AuthInfoModel();
+                AuthorizationInfoModel model = new AuthorizationInfoModel();
                 model.Id = dr["id"].ToInt();
                 model.Authorizer_Appid = dr["authorizer_appid"].ToString();
                 model.Authorizer_Access_Token_Old = dr["authorizer_access_token_old"].ToString();
