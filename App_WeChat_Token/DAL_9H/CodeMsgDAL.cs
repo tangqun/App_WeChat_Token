@@ -15,8 +15,8 @@ namespace DAL_9H
         #region 前台
         public string GetByCode(int code)
         {
-            CodeMsgModel retModel = Singleton_CodeMsg.GetInstance().Where(o => o.code == code).Single();
-            return retModel == null ? "" : retModel.msg;
+            CodeMsgModel retModel = Singleton_CodeMsg.GetInstance().Where(o => o.Code == code).Single();
+            return retModel == null ? "" : retModel.Msg;
         }
         #endregion
     }
@@ -29,14 +29,14 @@ namespace DAL_9H
         private static List<CodeMsgModel> instance = new List<CodeMsgModel>() { 
 
             // 系统异常
-            new CodeMsgModel(){ code = (int)CodeEnum.系统异常, msg = "系统异常" },
+            new CodeMsgModel(){ Code = (int)CodeEnum.系统异常, Msg = "系统异常" },
             // 成功
-            new CodeMsgModel(){ code = (int)CodeEnum.成功, msg = "{0}" },
+            new CodeMsgModel(){ Code = (int)CodeEnum.成功, Msg = "{0}" },
             // 失败
-            new CodeMsgModel(){ code = (int)CodeEnum.失败, msg = "{0}" },
+            new CodeMsgModel(){ Code = (int)CodeEnum.失败, Msg = "{0}" },
 
             // Web 注册登录
-            new CodeMsgModel(){ code = (int)CodeEnum.用户未授权, msg = "用户未授权" }
+            new CodeMsgModel(){ Code = (int)CodeEnum.用户未授权, Msg = "用户未授权" }
         };
 
         private Singleton_CodeMsg() { }

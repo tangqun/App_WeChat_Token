@@ -8,7 +8,7 @@ namespace Model_9H
 {
     public class CodeMsgModel
     {
-        public int code { get; set; }
-        public string msg { get; set; }
+        public int Code { get; set; }
+        public string Msg { get; set; }
     }
 }
