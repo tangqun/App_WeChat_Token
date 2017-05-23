@@ -19,21 +19,22 @@ namespace BLL_9H
     {
         private IConfigDAL configDAL = new ConfigDAL();
 
-        public string Receive(System.Net.Http.HttpRequestMessage request)
+        public string Receive(Stream requestStream)
         {
             try
             {
-                // appId 和 encodingAESKey 登录微信开放平台可见，通过中控器保证 appSecret 安全
-                string appId = ConfigHelper.AppId;
+                // appID 和 encodingAESKey 登录微信开放平台可见，通过中控器保证 appSecret 安全
+                string appID = ConfigHelper.AppID;
                 string appSecret = ConfigHelper.AppSecret;
                 string encodingAESKey = ConfigHelper.EncodingAESKey;
 
                 #region 1、推送component_verify_ticket协议
                 // 1、推送component_verify_ticket协议
-                Stream requestStream = Stream.Null;
-                HttpContent content = request.Content;
-                Task readTask = content.ReadAsStreamAsync().ContinueWith((task) => { requestStream = task.Result; });
-                readTask.Wait();
+
+                //<xml>
+                //    <AppId><![CDATA[wxf07d20fb51c8d917]]></AppId>
+                //    <Encrypt><![CDATA[CDquWt3mu0NqrLaD1+qYq/fUgjyGUNMBt13BR/Ubh6U2yYwkuuC7EtySesZRbKvbkB8XS6HkLay0/QnGi/IGU9pm+k2QJ27zmkdKC7y78cjYxG3/YZ/l0+kG01yTqtaEOeIvkvIyJ+RMX9S4z2fNLJ/FynXZoYtrqAkniR0OaZ4tk3P5/1f9CeXsEb5OxOc+piY8micnnTBXFHGYgd7xv5CF+5HMJauIksjaAVYqFTvJ/nCQ2K60pyVwJHyaWz5Kcroso3JdqOoQA7J5/2oyKpfZK0Ymi6U0aA4kNsPwMzH4XJ22cP7FAstm/TyLinLVmz1AHrieuxZU9o7w6kGscm+niNoaJOOWY/zgVcuEpBH0rrLNTUxzjNW7PYvmYoL3OEfib0cH2V7IDoTlt8GTbnaigcL+SEIbGrPQG8BBv7zlO1glMS8Lcp3xMqUsImtGgQ5B7aCaJGUI0MOqKN+71w==]]></Encrypt>
+                //</xml>
 
                 string requestBody_Cipher = string.Empty;
                 using (StreamReader reader = new StreamReader(requestStream))
@@ -45,20 +46,27 @@ namespace BLL_9H
                 LogHelper.Info("1、推送component_verify_ticket协议" + "\r\n\r\n" + requestBody_Cipher);
 
                 XmlNode root_Cipher = XmlHelper.Deserialize(requestBody_Cipher);
-                string appId_Cipher = root_Cipher["AppId"].InnerText;
+                string appID_Cipher = root_Cipher["AppId"].InnerText;
 
-                // 判断 appId_Cipher == appId， 避免无效的异常报错，不一致无需解码
+                // 判断 appID_Cipher == appID， 避免无效的异常报错，不一致无需解码
 
                 string encrypt_Cipher = root_Cipher["Encrypt"].InnerText;
-                string requestBody_Plain = Tencent.Cryptography.AES_decrypt(encrypt_Cipher, encodingAESKey, ref appId_Cipher);
+                string requestBody_Plain = Tencent.Cryptography.AES_decrypt(encrypt_Cipher, encodingAESKey, ref appID_Cipher);
+
+                //<xml>
+                //	<AppId><![CDATA[wxf07d20fb51c8d917]]></AppId>
+                //	<CreateTime>1495382674</CreateTime>
+                //	<InfoType><![CDATA[component_verify_ticket]]></InfoType>
+                //	<ComponentVerifyTicket><![CDATA[ticket@@@P3O_Id4Yj6p7ihohpImQwcGA8nS3WXf745wEeIqZIqJNB6uTqr9fLavLXZ7roC9vpASZLK5QVPfuoMGR95iJqA]]></ComponentVerifyTicket>
+                //</xml>
 
                 // 记录记录requestBody_Plain（XML格式）
-                LogHelper.Info("1、推送component_verify_ticket协议" + "\r\n\r\n" + requestBody_Cipher + "\r\n\r\n" + requestBody_Plain);
+                LogHelper.Info("1、推送component_verify_ticket协议" + "\r\n\r\nrequestBody_Cipher: " + requestBody_Cipher + "\r\n\r\nrequestBody_Plain: " + requestBody_Plain);
 
                 XmlNode root_Plain = XmlHelper.Deserialize(requestBody_Plain);
-                string appId_Plain = root_Plain["AppId"].InnerText;
+                string appID_Plain = root_Plain["AppId"].InnerText;
 
-                // 判断 appId_Plain == appId， 避免无效的异常报错，不一致无需更新数据库
+                // 判断 appID_Plain == appID， 避免无效的异常报错，不一致无需更新数据库
 
                 string createTime_Plain = root_Plain["CreateTime"].InnerText;
                 string infoType_Plain = root_Plain["InfoType"].InnerText; 
@@ -86,7 +94,7 @@ namespace BLL_9H
                         #region 2、获取第三方平台component_access_token
                         // 2、获取第三方平台component_access_token
                         component_access_token_req cat_req = new component_access_token_req();
-                        cat_req.Component_AppId = appId;// 用自己的和传回来的都可以
+                        cat_req.Component_AppId = appID;// 用自己的和传回来的都可以
                         cat_req.Component_AppSecret = appSecret;
                         cat_req.Component_Verify_Ticket = componentVerifyTicket_Plain;
                         string requestBody_2 = JsonConvert.SerializeObject(cat_req);
@@ -114,19 +122,19 @@ namespace BLL_9H
                 }
                 else if (infoType_Plain == "authorized")
                 {
-                    string authorizerAppid = root_Plain["AuthorizerAppid"].InnerText;
-                    string authorizationCode = root_Plain["AuthorizationCode"].InnerText;
-                    string authorizationCodeExpiredTime = root_Plain["AuthorizationCodeExpiredTime"].InnerText;
+                    //string authorizerAppid = root_Plain["AuthorizerAppid"].InnerText;
+                    //string authorizationCode = root_Plain["AuthorizationCode"].InnerText;
+                    //string authorizationCodeExpiredTime = root_Plain["AuthorizationCodeExpiredTime"].InnerText;
                 }
                 else if (infoType_Plain == "updateauthorized")
                 {
-                    string authorizerAppid = root_Plain["AuthorizerAppid"].InnerText;
-                    string authorizationCode = root_Plain["AuthorizationCode"].InnerText;
-                    string authorizationCodeExpiredTime = root_Plain["AuthorizationCodeExpiredTime"].InnerText;
+                    //string authorizerAppid = root_Plain["AuthorizerAppid"].InnerText;
+                    //string authorizationCode = root_Plain["AuthorizationCode"].InnerText;
+                    //string authorizationCodeExpiredTime = root_Plain["AuthorizationCodeExpiredTime"].InnerText;
                 }
                 else if (infoType_Plain == "unauthorized")
                 {
-                    string authorizerAppid = root_Plain["AuthorizerAppid"].InnerText;
+                    //string authorizerAppid = root_Plain["AuthorizerAppid"].InnerText;
                 }
 
                 return "success";

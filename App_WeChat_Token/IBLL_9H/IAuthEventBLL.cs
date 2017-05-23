@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -9,6 +10,6 @@ namespace IBLL_9H
 {
     public interface IAuthEventBLL
     {
-        string Receive(HttpRequestMessage request);
+        string Receive(Stream requestStream);
     }
 }

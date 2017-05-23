@@ -130,6 +130,10 @@
       <Project>{854facb3-38f0-4648-8b48-25ef6e68aa64}</Project>
       <Name>BLL_9H</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Helper_9H\Helper_9H.csproj">
+      <Project>{BE783EBE-FA0B-4F76-86EB-6A48CD08296F}</Project>
+      <Name>Helper_9H</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IBLL_9H\IBLL_9H.csproj">
       <Project>{1df6faba-3e08-486b-91f4-ecd1ce84f338}</Project>
       <Name>IBLL_9H</Name>

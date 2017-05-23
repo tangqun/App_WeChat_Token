@@ -96,7 +96,7 @@ namespace DAL_9H
             {
                 AuthorizationInfoModel model = new AuthorizationInfoModel();
                 model.Id = dr["id"].ToInt();
-                model.Authorizer_Appid = dr["authorizer_appid"].ToString();
+                model.Authorizer_AppId = dr["authorizer_appid"].ToString();
                 model.Authorizer_Access_Token_Old = dr["authorizer_access_token_old"].ToString();
                 model.Authorizer_Access_Token = dr["authorizer_access_token"].ToString();
                 model.Expires_In = dr["expires_in"].ToInt();

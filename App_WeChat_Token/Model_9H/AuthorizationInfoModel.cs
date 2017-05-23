@@ -9,7 +9,7 @@ namespace Model_9H
     public class AuthorizationInfoModel
     {
         public int Id { get; set; }
-        public string Authorizer_Appid { get; set; }
+        public string Authorizer_AppId { get; set; }
         public string Authorizer_Access_Token_Old { get; set; }
         public string Authorizer_Access_Token { get; set; }
         public int Expires_In { get; set; }
