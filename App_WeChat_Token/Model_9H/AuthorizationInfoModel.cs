@@ -8,15 +8,15 @@ namespace Model_9H
 {
     public class AuthorizationInfoModel
     {
-        public int Id { get; set; }
-        public string Authorizer_AppId { get; set; }
-        public string Authorizer_Access_Token_Old { get; set; }
-        public string Authorizer_Access_Token { get; set; }
-        public int Expires_In { get; set; }
-        public string Authorizer_Refresh_Token { get; set; }
-        public DateTime Auth_Time { get; set; }
-        public DateTime Refresh_Time { get; set; }
-        public DateTime Create_Time { get; set; }
-        public DateTime Update_Time { get; set; }
+        public int ID { get; set; }
+        public string AuthorizerAppID { get; set; }
+        public string AuthorizerAccessTokenOld { get; set; }
+        public string AuthorizerAccessToken { get; set; }
+        public int ExpiresIn { get; set; }
+        public string AuthorizerRefreshToken { get; set; }
+        public DateTime AuthTime { get; set; }
+        public DateTime RefreshTime { get; set; }
+        public DateTime CreateTime { get; set; }
+        public DateTime UpdateTime { get; set; }
     }
 }

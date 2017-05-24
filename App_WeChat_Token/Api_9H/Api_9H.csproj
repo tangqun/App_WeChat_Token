@@ -104,7 +104,6 @@
     <Compile Include="Controllers\AccessTokenController.cs" />
     <Compile Include="Controllers\AuthEventController.cs" />
     <Compile Include="Controllers\ComponentAccessTokenController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

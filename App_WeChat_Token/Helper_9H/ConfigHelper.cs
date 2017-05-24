@@ -9,9 +9,10 @@ namespace Helper_9H
     public class ConfigHelper
     {
         public static string ConnStr = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+        public static string ConnStr_jhwechat = ConfigurationManager.ConnectionStrings["ConnStr_jhwechat"].ConnectionString;
 
-        public static string AppID = GetConfig("AppID");
-        public static string AppSecret = GetConfig("AppSecret");
+        public static string ComponentAppID = GetConfig("ComponentAppID");
+        public static string ComponentAppSecret = GetConfig("ComponentAppSecret");
         public static string EncodingAESKey = GetConfig("EncodingAESKey");
 
         public static string GetConfig(string key)

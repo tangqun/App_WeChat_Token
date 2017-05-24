@@ -29,11 +29,11 @@ namespace DAL_9H
                             `update_time`
                         FROM `authorization_info`
                         WHERE TIMESTAMPDIFF(SECOND, refresh_time, NOW()) + 600 >= expires_in;";
-            DataTable dt = MySqlHelper.ExecuteDataset(ConfigHelper.ConnStr, sql).Tables[0];
+            DataTable dt = MySqlHelper.ExecuteDataset(ConfigHelper.ConnStr_jhwechat, sql).Tables[0];
             return EntityListToModelList(dt);
         }
 
-        public AuthorizationInfoModel GetModel(string authorizer_appid)
+        public AuthorizationInfoModel GetModel(string authorizerAppID)
         {
             string sql =
                         @"SELECT
@@ -50,11 +50,11 @@ namespace DAL_9H
                         FROM `authorization_info`
                         WHERE `authorizer_appid` = @authorizer_appid
                         LIMIT 0, 1;";
-            DataRow dr = MySqlHelper.ExecuteDataRow(ConfigHelper.ConnStr, sql, new MySqlParameter("@authorizer_appid", authorizer_appid));
+            DataRow dr = MySqlHelper.ExecuteDataRow(ConfigHelper.ConnStr_jhwechat, sql, new MySqlParameter("@authorizer_appid", authorizerAppID));
             return EntityToModel(dr);
         }
 
-        public bool Refresh(string authorizer_appid, string authorizer_access_token_old, string authorizer_access_token, int expires_in, string authorizer_refresh_token, DateTime refresh_time)
+        public bool Refresh(string authorizerAppID, string authorizerAccessTokenOld, string authorizerAccessToken, int expiresIn, string authorizerRefreshToken, DateTime refreshTime)
         {
             string sql =
                         @"UPDATE `authorization_info`
@@ -66,15 +66,15 @@ namespace DAL_9H
                             `update_time` = @update_time
                         WHERE `authorizer_appid` = @authorizer_appid;";
             MySqlParameter[] parameters = { 
-                                              new MySqlParameter("@authorizer_access_token_old", authorizer_access_token_old),
-                                              new MySqlParameter("@authorizer_access_token", authorizer_access_token),
-                                              new MySqlParameter("@expires_in", expires_in),
-                                              new MySqlParameter("@authorizer_refresh_token", authorizer_refresh_token),
-                                              new MySqlParameter("@refresh_time", refresh_time),
-                                              new MySqlParameter("@update_time", refresh_time),
-                                              new MySqlParameter("@authorizer_appid", authorizer_appid)
+                                              new MySqlParameter("@authorizer_access_token_old", authorizerAccessTokenOld),
+                                              new MySqlParameter("@authorizer_access_token", authorizerAccessToken),
+                                              new MySqlParameter("@expires_in", expiresIn),
+                                              new MySqlParameter("@authorizer_refresh_token", authorizerRefreshToken),
+                                              new MySqlParameter("@refresh_time", refreshTime),
+                                              new MySqlParameter("@update_time", refreshTime),
+                                              new MySqlParameter("@authorizer_appid", authorizerAppID)
                                           };
-            return MySqlHelper.ExecuteNonQuery(ConfigHelper.ConnStr, sql, parameters) > 0;
+            return MySqlHelper.ExecuteNonQuery(ConfigHelper.ConnStr_jhwechat, sql, parameters) > 0;
         }
 
         private List<AuthorizationInfoModel> EntityListToModelList(DataTable dt)
@@ -95,16 +95,16 @@ namespace DAL_9H
             if (dr != null)
             {
                 AuthorizationInfoModel model = new AuthorizationInfoModel();
-                model.Id = dr["id"].ToInt();
-                model.Authorizer_AppId = dr["authorizer_appid"].ToString();
-                model.Authorizer_Access_Token_Old = dr["authorizer_access_token_old"].ToString();
-                model.Authorizer_Access_Token = dr["authorizer_access_token"].ToString();
-                model.Expires_In = dr["expires_in"].ToInt();
-                model.Authorizer_Refresh_Token = dr["authorizer_refresh_token"].ToString();
-                model.Auth_Time = dr["auth_time"].ToDateTime();
-                model.Refresh_Time = dr["refresh_time"].ToDateTime();
-                model.Create_Time = dr["create_time"].ToDateTime();
-                model.Update_Time = dr["update_time"].ToDateTime();
+                model.ID = dr["id"].ToInt();
+                model.AuthorizerAppID = dr["authorizer_appid"].ToString();
+                model.AuthorizerAccessTokenOld = dr["authorizer_access_token_old"].ToString();
+                model.AuthorizerAccessToken = dr["authorizer_access_token"].ToString();
+                model.ExpiresIn = dr["expires_in"].ToInt();
+                model.AuthorizerRefreshToken = dr["authorizer_refresh_token"].ToString();
+                model.AuthTime = dr["auth_time"].ToDateTime();
+                model.RefreshTime = dr["refresh_time"].ToDateTime();
+                model.CreateTime = dr["create_time"].ToDateTime();
+                model.UpdateTime = dr["update_time"].ToDateTime();
                 return model;
             }
             return null;

@@ -11,9 +11,9 @@ namespace IDAL_9H
     {
         List<AuthorizationInfoModel> GetRefreshList();
 
-        AuthorizationInfoModel GetModel(string authorizer_appid);
+        AuthorizationInfoModel GetModel(string authorizerAppID);
 
         // 刷新令牌
-        bool Refresh(string authorizer_appid, string authorizer_access_token_old, string authorizer_access_token, int expires_in, string authorizer_refresh_token, DateTime refresh_time);
+        bool Refresh(string authorizerAppID, string authorizerAccessTokenOld, string authorizerAccessToken, int expiresIn, string authorizerRefreshToken, DateTime refreshTime);
     }
 }

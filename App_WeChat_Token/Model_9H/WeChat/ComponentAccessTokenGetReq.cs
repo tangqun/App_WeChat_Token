@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Model_9H
 {
-    public class component_access_token_req
+    public class ComponentAccessTokenGetReq
     {
         [JsonProperty("component_appid")]
-        public string Component_AppId { get; set; }
+        public string ComponentAppId { get; set; }
         [JsonProperty("component_appsecret")]
-        public string Component_AppSecret { get; set; }
+        public string ComponentAppSecret { get; set; }
         [JsonProperty("component_verify_ticket")]
-        public string Component_Verify_Ticket { get; set; }
+        public string ComponentVerifyTicket { get; set; }
     }
 }

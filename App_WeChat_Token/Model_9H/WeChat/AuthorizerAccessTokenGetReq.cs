@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Model_9H
 {
-    public class Authorizer_Access_Token_Req
+    public class AuthorizerAccessTokenGetReq
     {
         [JsonProperty("component_appid")]
-        public string Component_AppId { get; set; }
+        public string ComponentAppID { get; set; }
         [JsonProperty("authorizer_appid")]
-        public string Authorizer_AppId { get; set; }
+        public string AuthorizerAppID { get; set; }
         [JsonProperty("authorizer_refresh_token")]
-        public string Authorizer_Refresh_Token { get; set; }
+        public string AuthorizerRefreshToken { get; set; }
     }
 }

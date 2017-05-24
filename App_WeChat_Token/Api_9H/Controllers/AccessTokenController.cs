@@ -14,9 +14,9 @@ namespace Token_9H.Controllers
     {
         private IAccessTokenBLL accessTokenBLL = new AccessTokenBLL();
 
-        public RESTfulModel Get(string authorizer_appid)
+        public RESTfulModel Get(string authorizerAppID)
         {
-            return accessTokenBLL.Get(authorizer_appid);
+            return accessTokenBLL.Get(authorizerAppID);
         }
     }
 }
