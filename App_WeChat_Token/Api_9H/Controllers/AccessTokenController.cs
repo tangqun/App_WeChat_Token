@@ -13,10 +13,18 @@ namespace Token_9H.Controllers
     public class AccessTokenController : ApiController
     {
         private IAccessTokenBLL accessTokenBLL = new AccessTokenBLL();
+        private IAuthorizationInfoBLL authorizationInfoBLL = new AuthorizationInfoBLL();
 
-        public RESTfulModel Get(string authorizer_appid)
+        [HttpGet]
+        public RESTfulModel Get(string authorizerAppID)
         {
-            return accessTokenBLL.Get(authorizer_appid);
+            return accessTokenBLL.Get(authorizerAppID);
+        }
+
+        [HttpPost]
+        public RESTfulModel Auth(AuthModel model)
+        {
+            return authorizationInfoBLL.Auth(model);
         }
     }
 }

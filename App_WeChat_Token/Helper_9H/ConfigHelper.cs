@@ -10,7 +10,7 @@ namespace Helper_9H
     {
         public static string ConnStr = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
 
-        public static string AppId = GetConfig("AppId");
+        public static string AppID = GetConfig("AppID");
         public static string AppSecret = GetConfig("AppSecret");
         public static string EncodingAESKey = GetConfig("EncodingAESKey");
 

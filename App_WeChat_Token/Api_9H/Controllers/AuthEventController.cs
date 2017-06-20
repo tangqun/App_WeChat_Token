@@ -15,7 +15,7 @@ namespace Api_9H.Controllers
 
         public string Receive()
         {
-            return authEventBLL.Receive(Request);
+            return authEventBLL.Receive(Request.Content.ReadAsStringAsync().Result);
         }
     }
 }

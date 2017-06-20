@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthInfoDAL.cs" />
+    <Compile Include="AuthorizationInfoDAL.cs" />
     <Compile Include="CodeMsgDAL.cs" />
     <Compile Include="ConfigDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

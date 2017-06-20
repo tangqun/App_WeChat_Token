@@ -13,8 +13,8 @@ namespace BLL_9H
 {
     public class ComponentAccessTokenBLL : IComponentAccessTokenBLL
     {
-        private IConfigDAL configDAL = new ConfigDAL();
         private ICodeMsgDAL codeMsgDAL = new CodeMsgDAL();
+        private IConfigDAL configDAL = new ConfigDAL();
 
         public RESTfulModel Get()
         {
@@ -25,7 +25,7 @@ namespace BLL_9H
             }
             catch (Exception ex)
             {
-                LogHelper.Error("唐群", ex);
+                LogHelper.Error(ex);
                 return new RESTfulModel() { Code = (int)CodeEnum.系统异常, Msg = codeMsgDAL.GetByCode((int)CodeEnum.系统异常) };
             }
         }

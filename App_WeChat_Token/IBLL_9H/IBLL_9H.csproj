@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IAccessTokenBLL.cs" />
     <Compile Include="IAuthEventBLL.cs" />
+    <Compile Include="IAuthorizationInfoBLL.cs" />
     <Compile Include="IComponent_Access_TokenBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

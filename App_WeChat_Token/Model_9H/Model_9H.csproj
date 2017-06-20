@@ -44,26 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthInfoModel.cs" />
+    <Compile Include="AuthorizationInfoModel.cs" />
     <Compile Include="CodeMsgModel.cs" />
     <Compile Include="ConfigModel.cs" />
     <Compile Include="Enums\CodeEnum.cs" />
+    <Compile Include="PostModel\AuthModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RESTfulModel.cs" />
-    <Compile Include="WeChat\Authorization_Info.cs" />
-    <Compile Include="WeChat\Authorization_Info_Req.cs" />
-    <Compile Include="WeChat\Authorization_Info_Resp.cs" />
-    <Compile Include="WeChat\Authorizer_Access_Token_Req.cs" />
-    <Compile Include="WeChat\Authorizer_Access_Token_Resp.cs" />
-    <Compile Include="WeChat\Component_Access_Token_Req.cs" />
-    <Compile Include="WeChat\Component_Access_Token_Resp.cs" />
+    <Compile Include="WeChat\AuthorizerAccessTokenGetReq.cs" />
+    <Compile Include="WeChat\AuthorizerAccessTokenGetResp.cs" />
+    <Compile Include="WeChat\ComponentAccessTokenGetReq.cs" />
+    <Compile Include="WeChat\ComponentAccessTokenGetResp.cs" />
     <Compile Include="WeChat\Component_Verify_Ticket_Cipher.cs" />
-    <Compile Include="WeChat\Funcscope_Category.cs" />
-    <Compile Include="WeChat\Func_Info.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
