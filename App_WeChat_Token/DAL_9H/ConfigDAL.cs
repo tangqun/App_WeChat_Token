@@ -29,7 +29,7 @@ namespace DAL_9H
             return EntityToModel(dr);
         }
 
-        public bool Update(string key, string value, DateTime update_time)
+        public bool Update(string key, string value, DateTime updateTime)
         {
             string sql =
                         @"UPDATE `config`
@@ -38,7 +38,7 @@ namespace DAL_9H
                         WHERE `key` = @key;";
             MySqlParameter[] parameters = { 
                                               new MySqlParameter("@value", value),
-                                              new MySqlParameter("@update_time", update_time),
+                                              new MySqlParameter("@update_time", updateTime),
                                               new MySqlParameter("@key", key)
                                           };
             return MySqlHelper.ExecuteNonQuery(ConfigHelper.ConnStr, sql, parameters) > 0;
@@ -49,11 +49,11 @@ namespace DAL_9H
             if (dr != null)
             {
                 ConfigModel model = new ConfigModel();
-                model.Id = dr["id"].ToInt();
+                model.ID = dr["id"].ToInt();
                 model.Key = dr["key"].ToString();
                 model.Value = dr["value"].ToString();
-                model.Create_Time = dr["create_time"].ToDateTime();
-                model.Update_Time = dr["update_time"].ToDateTime();
+                model.CreateTime = dr["create_time"].ToDateTime();
+                model.UpdateTime = dr["update_time"].ToDateTime();
                 return model;
             }
             return null;

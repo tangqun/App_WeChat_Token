@@ -10,6 +10,6 @@ namespace IDAL_9H
     public interface IConfigDAL
     {
         ConfigModel GetModel(string key);
-        bool Update(string key, string value, DateTime update_time);
+        bool Update(string key, string value, DateTime updateTime);
     }
 }
