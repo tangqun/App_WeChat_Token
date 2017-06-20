@@ -55,7 +55,6 @@
     <Compile Include="WeChat\AuthorizerAccessTokenGetResp.cs" />
     <Compile Include="WeChat\ComponentAccessTokenGetReq.cs" />
     <Compile Include="WeChat\ComponentAccessTokenGetResp.cs" />
-    <Compile Include="WeChat\Component_Verify_Ticket_Cipher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -68,7 +68,7 @@ namespace BLL_9H
                     
                     ConfigModel configModel = configDAL.GetModel("component_access_token");
 
-                    int timestamp = (int)((DateTime.Now - configModel.Update_Time).TotalMinutes);
+                    int timestamp = (int)((DateTime.Now - configModel.UpdateTime).TotalMinutes);
                     if (timestamp >= 110)
                     {
                         #region 2、获取第三方平台component_access_token
