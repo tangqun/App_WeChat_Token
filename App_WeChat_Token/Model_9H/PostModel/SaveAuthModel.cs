@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model_9H
 {
-    public class AuthModel
+    public class SaveAuthModel
     {
         [JsonProperty("authorizerAppID")]
         public string AuthorizerAppID { get; set; }

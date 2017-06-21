@@ -73,9 +73,9 @@ namespace BLL_9H
                     {
                         #region 2、获取第三方平台component_access_token
                         // 2、获取第三方平台component_access_token
-                        string url = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
+                        string url_2 = "https://api.weixin.qq.com/cgi-bin/component/api_component_token";
 
-                        LogHelper.Info("2、获取第三方平台component_access_token url", url);
+                        LogHelper.Info("2、获取第三方平台component_access_token url_2", url_2);
 
                         ComponentAccessTokenGetReq req_2 = new ComponentAccessTokenGetReq();
                         req_2.ComponentAppID = appID;
@@ -85,7 +85,7 @@ namespace BLL_9H
 
                         LogHelper.Info("2、获取第三方平台component_access_token requestBody_2", requestBody_2);
 
-                        string responseBody_2 = HttpHelper.Post(url, requestBody_2);
+                        string responseBody_2 = HttpHelper.Post(url_2, requestBody_2);
 
                         LogHelper.Info("2、获取第三方平台component_access_token responseBody_2", responseBody_2);
 

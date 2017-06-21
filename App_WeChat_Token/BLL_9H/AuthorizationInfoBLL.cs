@@ -16,7 +16,7 @@ namespace BLL_9H
         private ICodeMsgDAL codeMsgDAL = new CodeMsgDAL();
         private IAuthorizationInfoDAL authorizationInfoDAL = new AuthorizationInfoDAL();
 
-        public RESTfulModel Save(AuthModel model)
+        public RESTfulModel Save(SaveAuthModel model)
         {
             // 授权信息存数据库
             try

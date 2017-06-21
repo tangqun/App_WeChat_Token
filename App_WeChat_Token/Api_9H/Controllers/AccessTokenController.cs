@@ -28,7 +28,7 @@ namespace Token_9H.Controllers
         /// 存储
         /// </summary>
         [HttpPost]
-        public RESTfulModel Save(AuthModel model)
+        public RESTfulModel Save(SaveAuthModel model)
         {
             return authorizationInfoBLL.Save(model);
         }
