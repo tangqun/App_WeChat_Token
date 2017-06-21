@@ -15,16 +15,22 @@ namespace Token_9H.Controllers
         private IAccessTokenBLL accessTokenBLL = new AccessTokenBLL();
         private IAuthorizationInfoBLL authorizationInfoBLL = new AuthorizationInfoBLL();
 
+        /// <summary>
+        /// 获取
+        /// </summary>
         [HttpGet]
         public RESTfulModel Get(string authorizerAppID)
         {
             return accessTokenBLL.Get(authorizerAppID);
         }
 
+        /// <summary>
+        /// 存储
+        /// </summary>
         [HttpPost]
-        public RESTfulModel Auth(AuthModel model)
+        public RESTfulModel Save(AuthModel model)
         {
-            return authorizationInfoBLL.Auth(model);
+            return authorizationInfoBLL.Save(model);
         }
     }
 }

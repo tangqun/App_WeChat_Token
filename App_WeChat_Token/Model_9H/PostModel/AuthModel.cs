@@ -11,7 +11,7 @@ namespace Model_9H
     {
         [JsonProperty("authorizerAppID")]
         public string AuthorizerAppID { get; set; }
-        [JsonProperty("authorizerAccessTokenOld")]
+        [JsonProperty("authorizerAccessToken")]
         public string AuthorizerAccessToken { get; set; }
         [JsonProperty("expiresIn")]
         public int ExpiresIn { get; set; }
