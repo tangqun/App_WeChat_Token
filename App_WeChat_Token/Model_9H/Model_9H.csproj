@@ -48,7 +48,7 @@
     <Compile Include="CodeMsgModel.cs" />
     <Compile Include="ConfigModel.cs" />
     <Compile Include="Enums\CodeEnum.cs" />
-    <Compile Include="PostModel\AuthModel.cs" />
+    <Compile Include="PostModel\SaveAuthModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RESTfulModel.cs" />
     <Compile Include="WeChat\AuthorizerAccessTokenGetReq.cs" />

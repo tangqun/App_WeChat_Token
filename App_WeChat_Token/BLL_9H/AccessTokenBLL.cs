@@ -32,9 +32,9 @@ namespace BLL_9H
                         DateTime createTime = DateTime.Now;
 
                         ConfigModel configModel = configDAL.GetModel("component_access_token");
-                        string url = "https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=" + configModel.Value;
+                        string url_5 = "https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=" + configModel.Value;
 
-                        LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） url", url);
+                        LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） url_5", url_5);
 
                         AuthorizerAccessTokenGetReq req_5 = new AuthorizerAccessTokenGetReq();
                         req_5.ComponentAppID = ConfigHelper.AppID;
@@ -44,7 +44,7 @@ namespace BLL_9H
 
                         LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） requestBody_5", requestBody_5);
 
-                        string responseBody_5 = HttpHelper.Post(url, requestBody_5);
+                        string responseBody_5 = HttpHelper.Post(url_5, requestBody_5);
 
                         LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） responseBody_5", responseBody_5);
 

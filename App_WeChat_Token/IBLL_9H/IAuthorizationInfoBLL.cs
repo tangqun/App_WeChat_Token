@@ -9,6 +9,6 @@ namespace IBLL_9H
 {
     public interface IAuthorizationInfoBLL
     {
-        RESTfulModel Auth(AuthModel model);
+        RESTfulModel Save(SaveAuthModel model);
     }
 }
