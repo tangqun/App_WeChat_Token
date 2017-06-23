@@ -17,39 +17,24 @@ namespace BLL_9H
     {
         private ICodeMsgDAL codeMsgDAL = new CodeMsgDAL();
         private IConfigDAL configDAL = new ConfigDAL();
-        private IAuthorizationInfoDAL authInfoDAL = new AuthorizationInfoDAL();
+        private IAuthorizationInfoDAL authorizationInfoDAL = new AuthorizationInfoDAL();
 
         public Model_9H.RESTfulModel Get(string authorizerAppID)
         {
             try
             {
-                AuthorizationInfoModel authorizationInfoModel = authInfoDAL.GetModel(authorizerAppID);
+                AuthorizationInfoModel authorizationInfoModel = authorizationInfoDAL.GetModel(authorizerAppID);
                 if (authorizationInfoModel != null)
                 {
                     int timestamp = (int)((DateTime.Now - authorizationInfoModel.UpdateTime).TotalMinutes);
                     if (timestamp >= 110)
                     {
-                        DateTime createTime = DateTime.Now;
-
                         ConfigModel configModel = configDAL.GetModel("component_access_token");
                         string url_5 = "https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=" + configModel.Value;
 
                         LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） url_5", url_5);
 
-                        AuthorizerAccessTokenGetReq req_5 = new AuthorizerAccessTokenGetReq();
-                        req_5.ComponentAppID = ConfigHelper.AppID;
-                        req_5.AuthorizerAppID = authorizationInfoModel.AuthorizerAppID;
-                        req_5.AuthorizerRefreshToken = authorizationInfoModel.AuthorizerRefreshToken;
-                        string requestBody_5 = JsonConvert.SerializeObject(req_5);
-
-                        LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） requestBody_5", requestBody_5);
-
-                        string responseBody_5 = HttpHelper.Post(url_5, requestBody_5);
-
-                        LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） responseBody_5", responseBody_5);
-
-                        AuthorizerAccessTokenGetResp resp = JsonConvert.DeserializeObject<AuthorizerAccessTokenGetResp>(responseBody_5);
-                        authInfoDAL.Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerAccessToken, resp.AuthorizerAccessToken, resp.ExpiresIn, resp.AuthorizerRefreshToken, createTime);
+                        AuthorizerAccessTokenGetResp resp = Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerAccessToken, configModel.Value);
 
                         return new RESTfulModel() { Code = (int)CodeEnum.成功, Msg = string.Format(codeMsgDAL.GetByCode((int)CodeEnum.成功), "成功"), Data = resp.AuthorizerAccessToken };
                     }
@@ -70,37 +55,58 @@ namespace BLL_9H
             }
         }
 
-        //public void Refresh(object state)
-        //{
-        //    List<AuthorizationInfoModel> authInfoModelList = authInfoDAL.GetRefreshList();
-        //    if (authInfoModelList.Any())
-        //    {
-        //        ConfigModel configModel = configDAL.GetModel("component_access_token");
+        private AuthorizerAccessTokenGetResp Refresh(string authorizerAppID, string authorizerRefreshToken, string componentAccessToken)
+        {
+            DateTime refreshTime = DateTime.Now;
 
-        //        foreach (var authInfoModel in authInfoModelList)
-        //        {
-        //            Authorizer_Access_Token_Req aat_req = new Authorizer_Access_Token_Req();
-        //            aat_req.Component_AppId = ConfigHelper.AppID;
-        //            aat_req.Authorizer_AppId = authInfoModel.Authorizer_Appid;
-        //            aat_req.Authorizer_Refresh_Token = authInfoModel.Authorizer_Refresh_Token;
-        //            string requestBody_5 = JsonConvert.SerializeObject(aat_req);
+            string url_5 = "https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=" + componentAccessToken;
 
-        //            LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌）" + "\r\n\r\n" + requestBody_5);
+            LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） url_5", url_5);
 
-        //            string responseBody_5 = HttpHelper.Post("https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=" + configModel.Value, requestBody_5);
+            AuthorizerAccessTokenGetReq req_5 = new AuthorizerAccessTokenGetReq()
+            {
+                ComponentAppID = ConfigHelper.ComponentAppID,
+                AuthorizerAppID = authorizerAppID,
+                AuthorizerRefreshToken = authorizerRefreshToken
+            };
+            string requestBody_5 = JsonConvert.SerializeObject(req_5);
 
-        //            LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌）" + "\r\n\r\n" + requestBody_5 + "\r\n\r\n" + responseBody_5);
+            LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） requestBody_5", requestBody_5);
 
-        //            Authorizer_Access_Token_Resp aat_resp = JsonConvert.DeserializeObject<Authorizer_Access_Token_Resp>(responseBody_5);
-        //            authInfoDAL.Refresh(authInfoModel.Authorizer_Appid, authInfoModel.Authorizer_Access_Token, aat_resp.Authorizer_Access_Token, aat_resp.Expires_In, aat_resp.Authorizer_Refresh_Token, DateTime.Now);
-        //        }
+            string responseBody_5 = HttpHelper.Post(url_5, requestBody_5);
 
-        //        LogHelper.Info("监控中，" + authInfoModelList.Count + "个令牌已更新，如下：\r\n" + string.Join("\r\n", authInfoModelList.Select(o => o.Authorizer_Appid)));
-        //    }
-        //    else
-        //    {
-        //        LogHelper.Info("监控中，未有令牌即将过期");
-        //    }
-        //}
+            LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） responseBody_5", responseBody_5);
+
+            AuthorizerAccessTokenGetResp resp = JsonConvert.DeserializeObject<AuthorizerAccessTokenGetResp>(responseBody_5);
+            authorizationInfoDAL.Refresh(authorizerAppID, authorizerRefreshToken /* old */, resp.AuthorizerAccessToken, resp.ExpiresIn, resp.AuthorizerRefreshToken, refreshTime);
+            return resp;
+        }
+
+        public void RefreshForAuthorized()
+        {
+            try
+            {
+                List<AuthorizationInfoModel> authorizationInfoModelList = authorizationInfoDAL.GetRefreshList();
+                if (authorizationInfoModelList.Any())
+                {
+                    ConfigModel configModel = configDAL.GetModel("component_access_token");
+
+                    foreach (var authorizationInfoModel in authorizationInfoModelList)
+                    {
+                        Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerAccessToken, configModel.Value);
+                    }
+
+                    LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） 监控中...", "【 " + authorizationInfoModelList.Count + " 】个令牌已更新，如下：\r\n" + string.Join("\r\n", authorizationInfoModelList.Select(o => o.AuthorizerAppID)));
+                }
+                else
+                {
+                    LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） 监控中...", "未有令牌即将过期");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex);
+            }
+        }
     }
 }

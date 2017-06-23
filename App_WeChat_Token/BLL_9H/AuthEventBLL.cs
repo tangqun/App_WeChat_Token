@@ -24,8 +24,8 @@ namespace BLL_9H
             try
             {
                 // AppID和EncodingAESKey登录微信开放平台可见，通过中控器保证AppSecret安全
-                string appID = ConfigHelper.AppID;
-                string appSecret = ConfigHelper.AppSecret;
+                string componentAppID = ConfigHelper.ComponentAppID;
+                string componentAppSecret = ConfigHelper.ComponentAppSecret;
                 string encodingAESKey = ConfigHelper.EncodingAESKey;
 
                 #region 1、推送component_verify_ticket协议
@@ -46,7 +46,7 @@ namespace BLL_9H
 
                 XmlNode root_Cipher = XmlHelper.Deserialize(requestBody_Cipher);
                 string encrypt_Cipher = root_Cipher["Encrypt"].InnerText;
-                string requestBody = Tencent.Cryptography.AES_decrypt(encrypt_Cipher, encodingAESKey, ref appID);
+                string requestBody = Tencent.Cryptography.AES_decrypt(encrypt_Cipher, encodingAESKey, ref componentAppID);
 
                 // 记录requestBody（XML格式）
                 LogHelper.Info("1、推送component_verify_ticket协议 requestBody", requestBody);
@@ -78,8 +78,8 @@ namespace BLL_9H
                         LogHelper.Info("2、获取第三方平台component_access_token url_2", url_2);
 
                         ComponentAccessTokenGetReq req_2 = new ComponentAccessTokenGetReq();
-                        req_2.ComponentAppID = appID;
-                        req_2.ComponentAppSecret = appSecret;
+                        req_2.ComponentAppID = componentAppID;
+                        req_2.ComponentAppSecret = componentAppSecret;
                         req_2.ComponentVerifyTicket = componentVerifyTicket;
                         string requestBody_2 = JsonConvert.SerializeObject(req_2);
 

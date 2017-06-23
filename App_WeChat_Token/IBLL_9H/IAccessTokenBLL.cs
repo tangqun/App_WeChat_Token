@@ -11,5 +11,7 @@ namespace IBLL_9H
     public interface IAccessTokenBLL
     {
         RESTfulModel Get(string authorizer_appid);
+
+        void RefreshForAuthorized();
     }
 }
