@@ -34,7 +34,7 @@ namespace BLL_9H
 
                         LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） url_5", url_5);
 
-                        AuthorizationInfoModel authorizationInfoModel2 = Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerAccessToken, configModel.Value);
+                        AuthorizationInfoModel authorizationInfoModel2 = Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerAccessToken, authorizationInfoModel.AuthorizerRefreshToken, configModel.Value);
                         authorizationInfoModel2.AuthorizerAccessTokenOld = authorizationInfoModel.AuthorizerAccessToken;
 
                         return new RESTfulModel() { Code = (int)CodeEnum.成功, Msg = string.Format(codeMsgDAL.GetByCode((int)CodeEnum.成功), "成功"), Data = authorizationInfoModel2 };
@@ -56,7 +56,7 @@ namespace BLL_9H
             }
         }
 
-        private AuthorizationInfoModel Refresh(string authorizerAppID, string authorizerRefreshToken, string componentAccessToken)
+        private AuthorizationInfoModel Refresh(string authorizerAppID, string authorizerAccessTokenOld, string authorizerRefreshToken, string componentAccessToken)
         {
             DateTime refreshTime = DateTime.Now;
 
@@ -90,7 +90,7 @@ namespace BLL_9H
             TicketGetResp resp_api = JsonConvert.DeserializeObject<TicketGetResp>(responseBody_api);
 
             // 刷新
-            authorizationInfoDAL.Refresh(authorizerAppID, authorizerRefreshToken /* old */, resp.AuthorizerAccessToken, resp.ExpiresIn, resp.AuthorizerRefreshToken, resp_jsapi.Ticket, resp_api.Ticket, refreshTime);
+            authorizationInfoDAL.Refresh(authorizerAppID, authorizerAccessTokenOld /* old */, resp.AuthorizerAccessToken, resp.ExpiresIn, resp.AuthorizerRefreshToken, resp_jsapi.Ticket, resp_api.Ticket, refreshTime);
 
             return new AuthorizationInfoModel { AuthorizerAccessToken = resp.AuthorizerAccessToken, JSAPITicket = resp_jsapi.Ticket, APITicket = resp_api.Ticket };
         }
@@ -106,7 +106,7 @@ namespace BLL_9H
 
                     foreach (var authorizationInfoModel in authorizationInfoModelList)
                     {
-                        Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerRefreshToken, configModel.Value);
+                        Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerAccessToken, authorizationInfoModel.AuthorizerRefreshToken, configModel.Value);
                     }
 
                     LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） 监控中...", "【 " + authorizationInfoModelList.Count + " 】个令牌已更新，如下：\r\n" + string.Join("\r\n", authorizationInfoModelList.Select(o => o.AuthorizerAppID)));
