@@ -11,6 +11,26 @@ namespace Helper_9H
 {
     public class HttpHelper
     {
+        public static string Get(string url)
+        {
+            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+            request.Method = "GET";
+            request.ContentType = "application/json";
+
+            if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+            }
+
+            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                StreamReader streamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                return streamReader.ReadToEnd();
+            }
+            return null;
+        }
+
         public static string Post(string url, string requestBody)
         {
             HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;

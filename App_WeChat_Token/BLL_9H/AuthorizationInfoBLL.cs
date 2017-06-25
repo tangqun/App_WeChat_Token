@@ -8,6 +8,7 @@ using Model_9H;
 using IDAL_9H;
 using DAL_9H;
 using Helper_9H;
+using Newtonsoft.Json;
 
 namespace BLL_9H
 {
@@ -23,9 +24,25 @@ namespace BLL_9H
             {
                 // 验证
 
+                // jsapi_ticket
+                string url_jsapi = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + model.AuthorizerAccessToken + "&type=jsapi";
+                LogHelper.Info("获取（刷新）jsapi_ticket url_jsapi", url_jsapi);
+                string responseBody_jsapi = HttpHelper.Get(url_jsapi);
+                LogHelper.Info("获取（刷新）jsapi_ticket responseBody_jsapi", responseBody_jsapi);
+                TicketGetResp resp_jsapi = JsonConvert.DeserializeObject<TicketGetResp>(responseBody_jsapi);
+
+                // api_ticket
+                string url_api = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + model.AuthorizerAccessToken + "&type=wx_card";
+                LogHelper.Info("获取（刷新）api_ticket url_api", url_api);
+                string responseBody_api = HttpHelper.Get(url_api);
+                LogHelper.Info("获取（刷新）api_ticket responseBody_api", responseBody_api);
+                TicketGetResp resp_api = JsonConvert.DeserializeObject<TicketGetResp>(responseBody_api);
+
                 AuthorizationInfoModel authorizationInfoModel = authorizationInfoDAL.GetModel(model.AuthorizerAppID);
                 if (authorizationInfoModel != null)
                 {
+
+
                     // 更新
                     authorizationInfoDAL.Update(
                         model.AuthorizerAppID,
@@ -33,6 +50,8 @@ namespace BLL_9H
                         model.AuthorizerAccessToken,
                         model.ExpiresIn,
                         model.AuthorizerRefreshToken,
+                        resp_jsapi.Ticket, 
+                        resp_api.Ticket,
                         model.AuthTime);
                 }
                 else
@@ -44,6 +63,8 @@ namespace BLL_9H
                         model.AuthorizerAccessToken,
                         model.ExpiresIn,
                         model.AuthorizerRefreshToken,
+                        resp_jsapi.Ticket,
+                        resp_api.Ticket,
                         model.AuthTime);
                 }
 

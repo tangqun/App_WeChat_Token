@@ -34,13 +34,14 @@ namespace BLL_9H
 
                         LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） url_5", url_5);
 
-                        AuthorizerAccessTokenGetResp resp = Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerAccessToken, configModel.Value);
+                        AuthorizationInfoModel authorizationInfoModel2 = Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerAccessToken, configModel.Value);
+                        authorizationInfoModel2.AuthorizerAccessTokenOld = authorizationInfoModel.AuthorizerAccessToken;
 
-                        return new RESTfulModel() { Code = (int)CodeEnum.成功, Msg = string.Format(codeMsgDAL.GetByCode((int)CodeEnum.成功), "成功"), Data = resp.AuthorizerAccessToken };
+                        return new RESTfulModel() { Code = (int)CodeEnum.成功, Msg = string.Format(codeMsgDAL.GetByCode((int)CodeEnum.成功), "成功"), Data = authorizationInfoModel2 };
                     }
                     else
                     {
-                        return new RESTfulModel() { Code = (int)CodeEnum.成功, Msg = string.Format(codeMsgDAL.GetByCode((int)CodeEnum.成功), "成功"), Data = authorizationInfoModel.AuthorizerAccessToken };
+                        return new RESTfulModel() { Code = (int)CodeEnum.成功, Msg = string.Format(codeMsgDAL.GetByCode((int)CodeEnum.成功), "成功"), Data = authorizationInfoModel };
                     }
                 }
                 else
@@ -55,14 +56,13 @@ namespace BLL_9H
             }
         }
 
-        private AuthorizerAccessTokenGetResp Refresh(string authorizerAppID, string authorizerRefreshToken, string componentAccessToken)
+        private AuthorizationInfoModel Refresh(string authorizerAppID, string authorizerRefreshToken, string componentAccessToken)
         {
             DateTime refreshTime = DateTime.Now;
 
+            // access_token
             string url_5 = "https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=" + componentAccessToken;
-
             LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） url_5", url_5);
-
             AuthorizerAccessTokenGetReq req_5 = new AuthorizerAccessTokenGetReq()
             {
                 ComponentAppID = ConfigHelper.ComponentAppID,
@@ -70,16 +70,29 @@ namespace BLL_9H
                 AuthorizerRefreshToken = authorizerRefreshToken
             };
             string requestBody_5 = JsonConvert.SerializeObject(req_5);
-
             LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） requestBody_5", requestBody_5);
-
             string responseBody_5 = HttpHelper.Post(url_5, requestBody_5);
-
             LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） responseBody_5", responseBody_5);
-
             AuthorizerAccessTokenGetResp resp = JsonConvert.DeserializeObject<AuthorizerAccessTokenGetResp>(responseBody_5);
-            authorizationInfoDAL.Refresh(authorizerAppID, authorizerRefreshToken /* old */, resp.AuthorizerAccessToken, resp.ExpiresIn, resp.AuthorizerRefreshToken, refreshTime);
-            return resp;
+
+            // jsapi_ticket
+            string url_jsapi = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + resp.AuthorizerAccessToken + "&type=jsapi";
+            LogHelper.Info("获取（刷新）jsapi_ticket url_jsapi", url_jsapi);
+            string responseBody_jsapi = HttpHelper.Get(url_jsapi);
+            LogHelper.Info("获取（刷新）jsapi_ticket responseBody_jsapi", responseBody_jsapi);
+            TicketGetResp resp_jsapi = JsonConvert.DeserializeObject<TicketGetResp>(responseBody_jsapi);
+
+            // api_ticket
+            string url_api = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + resp.AuthorizerAccessToken + "&type=wx_card";
+            LogHelper.Info("获取（刷新）api_ticket url_api", url_api);
+            string responseBody_api = HttpHelper.Get(url_api);
+            LogHelper.Info("获取（刷新）api_ticket responseBody_api", responseBody_api);
+            TicketGetResp resp_api = JsonConvert.DeserializeObject<TicketGetResp>(responseBody_api);
+
+            // 刷新
+            authorizationInfoDAL.Refresh(authorizerAppID, authorizerRefreshToken /* old */, resp.AuthorizerAccessToken, resp.ExpiresIn, resp.AuthorizerRefreshToken, resp_jsapi.Ticket, resp_api.Ticket, refreshTime);
+
+            return new AuthorizationInfoModel { AuthorizerAccessToken = resp.AuthorizerAccessToken, JSAPITicket = resp_jsapi.Ticket, APITicket = resp_api.Ticket };
         }
 
         public void RefreshForAuthorized()

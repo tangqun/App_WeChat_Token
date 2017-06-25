@@ -23,6 +23,8 @@ namespace DAL_9H
                             `authorizer_access_token`,
                             `expires_in`,
                             `authorizer_refresh_token`,
+                            `jsapi_ticket`,
+                            `api_ticket`,
                             `auth_time`,
                             `refresh_time`,
                             `create_time`,
@@ -34,7 +36,7 @@ namespace DAL_9H
             return EntityToModel(dr);
         }
 
-        public int Insert(string authorizerAppID, string authorizerAccessTokenOld, string authorizerAccessToken, int expiresIn, string authorizerRefreshToken, DateTime authTime)
+        public int Insert(string authorizerAppID, string authorizerAccessTokenOld, string authorizerAccessToken, int expiresIn, string authorizerRefreshToken, string jsapiTicket, string apiTicket, DateTime authTime)
         {
             string sql =
                         @"INSERT INTO `authorization_info`
@@ -43,6 +45,8 @@ namespace DAL_9H
                                      `authorizer_access_token`,
                                      `expires_in`,
                                      `authorizer_refresh_token`,
+                                     `jsapi_ticket`,
+                                     `api_ticket`,
                                      `auth_time`,
                                      `refresh_time`,
                                      `create_time`,
@@ -52,6 +56,8 @@ namespace DAL_9H
                                 @authorizer_access_token,
                                 @expires_in,
                                 @authorizer_refresh_token,
+                                @jsapi_ticket,
+                                @api_ticket,
                                 @auth_time,
                                 @refresh_time,
                                 @create_time,
@@ -63,6 +69,8 @@ namespace DAL_9H
                                               new MySqlParameter("@authorizer_access_token", authorizerAccessToken),
                                               new MySqlParameter("@expires_in", expiresIn),
                                               new MySqlParameter("@authorizer_refresh_token", authorizerRefreshToken),
+                                              new MySqlParameter("@jsapi_ticket", jsapiTicket),
+                                              new MySqlParameter("@api_ticket", apiTicket),
                                               new MySqlParameter("@auth_time", authTime),
                                               new MySqlParameter("@refresh_time", authTime),
                                               new MySqlParameter("@create_time", authTime),
@@ -71,7 +79,7 @@ namespace DAL_9H
             return MySqlHelper.ExecuteScalar(ConfigHelper.ConnStr, sql, parameters).ToInt();
         }
 
-        public bool Update(string authorizerAppID, string authorizerAccessTokenOld, string authorizerAccessToken, int expiresIn, string authorizerRefreshToken, DateTime authTime)
+        public bool Update(string authorizerAppID, string authorizerAccessTokenOld, string authorizerAccessToken, int expiresIn, string authorizerRefreshToken, string jsapiTicket, string apiTicket, DateTime authTime)
         {
             string sql =
                         @"UPDATE `authorization_info`
@@ -79,6 +87,8 @@ namespace DAL_9H
                             `authorizer_access_token` = @authorizer_access_token,
                             `expires_in` = @expires_in,
                             `authorizer_refresh_token` = @authorizer_refresh_token,
+                            `jsapi_ticket` = @jsapi_ticket,
+                            `api_ticket` = @api_ticket,
                             `auth_time` = @auth_time,
                             `refresh_time` = @refresh_time,
                             `update_time` = @update_time
@@ -88,6 +98,8 @@ namespace DAL_9H
                                               new MySqlParameter("@authorizer_access_token", authorizerAccessToken),
                                               new MySqlParameter("@expires_in", expiresIn),
                                               new MySqlParameter("@authorizer_refresh_token", authorizerRefreshToken),
+                                              new MySqlParameter("@jsapi_ticket", jsapiTicket),
+                                              new MySqlParameter("@api_ticket", apiTicket),
                                               new MySqlParameter("@auth_time", authTime), // 二次授权
                                               new MySqlParameter("@refresh_time", authTime),
                                               new MySqlParameter("@update_time", authTime),
@@ -96,7 +108,7 @@ namespace DAL_9H
             return MySqlHelper.ExecuteNonQuery(ConfigHelper.ConnStr, sql, parameters) > 0;
         }
 
-        public bool Refresh(string authorizerAppID, string authorizerAccessTokenOld, string authorizerAccessToken, int expiresIn, string authorizerRefreshToken, DateTime refreshTime)
+        public bool Refresh(string authorizerAppID, string authorizerAccessTokenOld, string authorizerAccessToken, int expiresIn, string authorizerRefreshToken, string jsapiTicket, string apiTicket, DateTime refreshTime)
         {
             string sql =
                         @"UPDATE `authorization_info`
@@ -104,6 +116,8 @@ namespace DAL_9H
                             `authorizer_access_token` = @authorizer_access_token,
                             `expires_in` = @expires_in,
                             `authorizer_refresh_token` = @authorizer_refresh_token,
+                            `jsapi_ticket` = @jsapi_ticket,
+                            `api_ticket` = @api_ticket,
                             `refresh_time` = @refresh_time,
                             `update_time` = @update_time
                         WHERE `authorizer_appid` = @authorizer_appid;";
@@ -112,6 +126,8 @@ namespace DAL_9H
                                               new MySqlParameter("@authorizer_access_token", authorizerAccessToken),
                                               new MySqlParameter("@expires_in", expiresIn),
                                               new MySqlParameter("@authorizer_refresh_token", authorizerRefreshToken),
+                                              new MySqlParameter("@jsapi_ticket", jsapiTicket),
+                                              new MySqlParameter("@api_ticket", apiTicket),
                                               new MySqlParameter("@refresh_time", refreshTime),
                                               new MySqlParameter("@update_time", refreshTime),
                                               new MySqlParameter("@authorizer_appid", authorizerAppID)
@@ -129,6 +145,8 @@ namespace DAL_9H
                             `authorizer_access_token`,
                             `expires_in`,
                             `authorizer_refresh_token`,
+                            `jsapi_ticket`,
+                            `api_ticket`,
                             `auth_time`,
                             `refresh_time`,
                             `create_time`,
@@ -163,6 +181,8 @@ namespace DAL_9H
                 model.AuthorizerAccessToken = dr["authorizer_access_token"].ToString();
                 model.ExpiresIn = dr["expires_in"].ToInt();
                 model.AuthorizerRefreshToken = dr["authorizer_refresh_token"].ToString();
+                model.JSAPITicket = dr["jsapi_ticket"].ToString();
+                model.APITicket = dr["api_ticket"].ToString();
                 model.AuthTime = dr["auth_time"].ToDateTime();
                 model.RefreshTime = dr["refresh_time"].ToDateTime();
                 model.CreateTime = dr["create_time"].ToDateTime();
