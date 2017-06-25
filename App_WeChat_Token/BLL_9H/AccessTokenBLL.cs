@@ -93,7 +93,7 @@ namespace BLL_9H
 
                     foreach (var authorizationInfoModel in authorizationInfoModelList)
                     {
-                        Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerAccessToken, configModel.Value);
+                        Refresh(authorizationInfoModel.AuthorizerAppID, authorizationInfoModel.AuthorizerRefreshToken, configModel.Value);
                     }
 
                     LogHelper.Info("5、获取（刷新）授权公众号的接口调用凭据（令牌） 监控中...", "【 " + authorizationInfoModelList.Count + " 】个令牌已更新，如下：\r\n" + string.Join("\r\n", authorizationInfoModelList.Select(o => o.AuthorizerAppID)));
